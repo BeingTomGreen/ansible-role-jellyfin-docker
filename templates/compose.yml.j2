@@ -32,6 +32,12 @@ services:
       - {{ dep }}
       {% endfor %}
     {% endif %}
+    {% if jellyfin_docker_devices %}
+    devices:
+      {% for device in jellyfin_docker_devices %}
+      - {{ device }}
+      {% endfor %}
+    {% endif %}
     {% if jellyfin_docker_labels %}
     labels:
       {% for label in jellyfin_docker_labels %}
