@@ -1,0 +1,59 @@
+---
+
+# Environment variables for Jellyfin
+# See https://docs.linuxserver.io/images/docker-jellyfin/
+jellyfin_docker_environment:
+  - PUID=1000
+  - PGID=1000
+  - TZ=Etc/UTC
+  # - JELLYFIN_PublishedServerUrl=http://192.168.0.5
+
+# Volume mappings
+jellyfin_docker_volumes:
+  - "{{ jellyfin_docker_base_dir }}/config:/config"
+  # The default way
+  - '/path/to/tv:/tv'
+  - '/path/to/movies:/movies'
+  - '/path/to/music:/music'
+  # Better, for atomic moves/hard links
+  # See https://wiki.servarr.com/docker-guide#consistent-and-well-planned-paths
+  # See https://trash-guides.info/File-and-Folder-Structure/Hardlinks-and-Instant-Moves/
+  # - '/path/to/data:/data'
+
+# Networks to attach the container to
+jellyfin_docker_networks: []
+# Example:
+# jellyfin_docker_networks:
+#  - 'mediarr'
+
+# Optional depends on
+jellyfin_docker_depends_on: []
+
+# The ports to pass through, can be an empty list if you don't need to expose ports
+jellyfin_docker_ports:
+  - 8096:8096
+  # - 8920:8920 # Optional - Https webUI (you need to set up your own certificate)
+  # - 7359:7359/udp # Optional - Allows clients to discover Jellyfin on the local network
+  # - 1900:1900/udp # Optional - Service discovery used by DNLA and clients
+
+# User that will run Jellyfin
+jellyfin_docker_user: "{{ ansible_user }}"
+
+# Base path for deployment
+jellyfin_docker_base_dir: '/srv/jellyfin_docker'
+
+# Docker image
+jellyfin_docker_image: 'lscr.io/linuxserver/jellyfin:latest'
+
+# Docker container name
+jellyfin_docker_container_name: 'jellyfin'
+
+# Define our restart policy
+jellyfin_docker_restart_policy: 'unless-stopped'
+
+# Define labels for the Jellyfin container
+jellyfin_docker_labels: []
+# Example:
+# jellyfin_docker_labels:
+#  - traefik.enable=true
+#  - traefik.http.routers.traefik-https.entrypoints=https

@@ -1,0 +1,22 @@
+---
+
+- name: Ensure base Jellyfin directory exists
+  ansible.builtin.file:
+    path: "{{ jellyfin_docker_base_dir }}"
+    state: 'directory'
+    owner: "{{ jellyfin_docker_user }}"
+    group: "{{ jellyfin_docker_user }}"
+    mode: '0755'
+
+- name: Ensure Jellyfin compose file is present
+  ansible.builtin.template:
+    src: 'compose.yml.j2'
+    dest: "{{ jellyfin_docker_base_dir }}/compose.yml"
+    owner: "{{ jellyfin_docker_user }}"
+    group: "{{ jellyfin_docker_user }}"
+    mode: '0644'
+
+- name: Ensure Jellyfin is running
+  community.docker.docker_compose_v2:
+    project_src: "{{ jellyfin_docker_base_dir }}"
+    state: 'present'

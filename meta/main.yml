@@ -1,0 +1,23 @@
+---
+
+galaxy_info:
+  author: Tom Green
+  description: A simple role for running Jellyfin via Docker compose.
+
+  role_name: jellyfin_docker
+  namespace: beingtomgreen
+  standalone: true
+
+  license: MIT
+
+  min_ansible_version: "2.12"
+
+  galaxy_tags:
+    - jellyfin
+    - docker
+    - compose
+
+dependencies: []
+
+collections:
+  - community.docker

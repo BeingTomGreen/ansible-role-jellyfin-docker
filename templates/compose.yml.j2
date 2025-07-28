@@ -1,0 +1,48 @@
+#jinja2: trim_blocks: "true", lstrip_blocks: "true"
+{{ ansible_managed | comment() }}
+
+services:
+  jellyfin:
+    image: {{ jellyfin_docker_image }}
+    container_name: {{ jellyfin_docker_container_name }}
+    restart: {{ jellyfin_docker_restart_policy }}
+    {% if jellyfin_docker_ports | length > 0 %}
+    ports:
+      {% for port in jellyfin_docker_ports %}
+      - {{ port }}
+      {% endfor %}
+    {% endif %}
+    {% if jellyfin_docker_networks | length > 0 %}
+    networks:
+      {% for net in jellyfin_docker_networks %}
+      - {{ net }}
+      {% endfor %}
+    {% endif %}
+    volumes:
+      {% for vol in jellyfin_docker_volumes %}
+      - {{ vol }}
+      {% endfor %}
+    environment:
+      {% for key, value in jellyfin_docker_environment.items() %}
+      {{ key }}: "{{ value }}"
+      {% endfor %}
+    {% if jellyfin_docker_depends_on %}
+    depends_on:
+      {% for dep in jellyfin_docker_depends_on %}
+      - {{ dep }}
+      {% endfor %}
+    {% endif %}
+    {% if jellyfin_docker_labels %}
+    labels:
+      {% for label in jellyfin_docker_labels %}
+      - {{ label }}
+      {% endfor %}
+    {% endif %}
+{% if jellyfin_docker_networks | length > 0 %}
+
+networks:
+  {% for net in jellyfin_docker_networks %}
+  {{ net }}:
+    external: true
+  {% endfor %}
+{% endif %}
