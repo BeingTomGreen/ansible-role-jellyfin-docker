@@ -129,7 +129,7 @@ In most cases if `/dev/dri` exists on the host, it should just work:
 
 If you're running a Raspberry Pi 4, be sure to enable `dtoverlay=vc4-fkms-v3d` in your `usercfg.txt`, and [check out the docs](https://docs.linuxserver.io/images/docker-jellyfin/#openmax-raspberry-pi).
 
-### Want kitchen sink?
+### Want the kitchen sink?
 
 Seriously, take a look at [`defaults/main.yml`](defaults/main.yml), it's obnoxiously commented, just for you.
 
