@@ -44,6 +44,7 @@ ansible-galaxy install -r requirements.yml
   roles:
     - role: beingtomgreen.jellyfin_docker
 ```
+
 ### Hardware Acceleration
 
 Jellyfin supports hardware acceleration with a GPU, but will require [additional config](https://docs.linuxserver.io/images/docker-jellyfin/#hardware-acceleration), you should also look over the [Hardware Acceleration Enhancements](https://docs.linuxserver.io/images/docker-jellyfin/#hardware-acceleration-enhancements).
