@@ -72,7 +72,7 @@ If you're rocking an AMD card, setup is nice and simple, as you'd expect:
 
 #### Intel
 
-If you're rocking an Itel card, setup is also nice and simple:
+If you're rocking an Intel card, setup is also nice and simple:
 
 ```yaml
 ---
