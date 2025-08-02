@@ -93,7 +93,7 @@ If you're rocking an Intel card, setup is also nice and simple:
 
 #### NVIDIA
 
-If you're stuck with an NVIDIA GPU, you will need the [container toolkit](https://github.com/NVIDIA/nvidia-container-toolkit) installed, and then set the `runtime` to `docker`:
+If you're stuck with an NVIDIA GPU, you will need the [container toolkit](https://github.com/NVIDIA/nvidia-container-toolkit) installed, and then set the `runtime` to `nvidia`:
 
 ```yaml
 ---
