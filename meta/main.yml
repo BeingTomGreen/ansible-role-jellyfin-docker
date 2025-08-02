@@ -2,7 +2,7 @@
 
 galaxy_info:
   author: Tom Green
-  description: A simple role for running Jellyfin via Docker compose.
+  description: A simple ansible role for running Jellyfin via Docker compose using the LinuxServer.io Jellyfin image
 
   role_name: jellyfin_docker
   namespace: beingtomgreen

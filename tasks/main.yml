@@ -2,7 +2,7 @@
 
 - name: Ensure base Jellyfin directory exists
   ansible.builtin.file:
-    path: "{{ jellyfin_docker_base_dir }}"
+    path: "{{ jellyfin_docker_base_directory }}"
     state: 'directory'
     owner: "{{ jellyfin_docker_user }}"
     group: "{{ jellyfin_docker_user }}"
@@ -11,12 +11,25 @@
 - name: Ensure Jellyfin compose file is present
   ansible.builtin.template:
     src: 'compose.yml.j2'
-    dest: "{{ jellyfin_docker_base_dir }}/compose.yml"
+    dest: "{{ jellyfin_docker_base_directory }}/compose.yml"
     owner: "{{ jellyfin_docker_user }}"
     group: "{{ jellyfin_docker_user }}"
     mode: '0644'
+    backup: true
+  register: jellyfin_docker_compose_template_result
 
-- name: Ensure Jellyfin is running
+- name: Ensure Jellyfin compose project is deployed
   community.docker.docker_compose_v2:
-    project_src: "{{ jellyfin_docker_base_dir }}"
+    project_src: "{{ jellyfin_docker_base_directory }}"
     state: 'present'
+    pull: "{{ jellyfin_docker_pull_policy }}"
+    recreate: "{{ 'always' if jellyfin_docker_compose_template_result.changed else 'auto' }}"
+    remove_orphans: true
+
+- name: Prune unused Docker images
+  community.docker.docker_prune:
+    images: true
+    images_filters:
+      dangling: false
+      until: "{{ jellyfin_docker_prune_until | default('72h') }}"
+  when: jellyfin_docker_prune_images | default(false)
