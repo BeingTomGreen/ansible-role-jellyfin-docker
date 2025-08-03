@@ -1,6 +1,6 @@
 # beingtomgreen.jellyfin_docker
 
-A simple ansible role for running [Jellyfin](https://www.jellyfin.tv/) via Docker compose using the [LinuxServer.io Jellyfin image](https://docs.linuxserver.io/images/docker-jellyfin).
+A simple ansible role for running [Jellyfin](https://www.jellyfin.org/) via Docker compose using the [LinuxServer.io Jellyfin image](https://docs.linuxserver.io/images/docker-jellyfin).
 
 For additional information on how to best handle your media paths see information on [wiki.servarr.com](https://wiki.servarr.com/docker-guide#consistent-and-well-planned-paths) and [trash-guides.info](https://trash-guides.info/File-and-Folder-Structure/Hardlinks-and-Instant-Moves/).
 
