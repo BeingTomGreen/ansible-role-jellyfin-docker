@@ -85,7 +85,7 @@ If you're rocking an Intel card, setup is also nice and simple:
     jellyfin_docker_devices:
       - '/dev/dri:/dev/dri'
 
-    # Add the AMD mod
+    # Add the OpenCL-Intel mod
     jellyfin_docker_extra_environment_vars:
       DOCKER_MODS: 'linuxserver/mods:jellyfin-opencl-intel'
   roles:
