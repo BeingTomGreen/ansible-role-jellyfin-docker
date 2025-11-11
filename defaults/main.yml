@@ -93,5 +93,5 @@ jellyfin_docker_user: "{{ ansible_user }}"
 jellyfin_docker_base_directory: '/srv/jellyfin_docker'
 
 # Control image pruning
-jellyfin_docker_prune_images: 'false'
+jellyfin_docker_prune_images: False
 jellyfin_docker_prune_until: '72h'
