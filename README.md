@@ -184,8 +184,7 @@ Seriously, take a look at [`defaults/main.yml`](defaults/main.yml), it's obnoxio
 
     jellyfin_docker_base_directory: '/opt/jellyfin_docker'
 
-    jellyfin_docker_prune_images: True
-    jellyfin_docker_prune_until: '24h'
+    jellyfin_docker_update_image: True
 
   roles:
     - role: beingtomgreen.jellyfin_docker

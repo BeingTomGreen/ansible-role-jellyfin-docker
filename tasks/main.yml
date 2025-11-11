@@ -22,14 +22,6 @@
   community.docker.docker_compose_v2:
     project_src: "{{ jellyfin_docker_base_directory }}"
     state: 'present'
-    pull: "{{ jellyfin_docker_pull_policy }}"
-    recreate: "{{ 'always' if jellyfin_docker_compose_template_result.changed else 'auto' }}"
+    pull: "{{ 'always' if jellyfin_docker_update_image else jellyfin_docker_pull_policy }}"
+    recreate: "{{ 'always' if (jellyfin_docker_compose_template_result.changed or jellyfin_docker_update_image) else 'auto' }}"
     remove_orphans: true
-
-- name: Prune unused Docker images
-  community.docker.docker_prune:
-    images: true
-    images_filters:
-      dangling: false
-      until: "{{ jellyfin_docker_prune_until | default('72h') }}"
-  when: jellyfin_docker_prune_images | default(false)
