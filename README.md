@@ -183,8 +183,7 @@ Seriously, take a look at [`defaults/main.yml`](defaults/main.yml), it's obnoxio
       - '/path/to/music:/music'
 
     jellyfin_docker_base_directory: '/opt/jellyfin_docker'
-
-    jellyfin_docker_update_image: True
+    jellyfin_docker_update_image: true
 
   roles:
     - role: beingtomgreen.jellyfin_docker
