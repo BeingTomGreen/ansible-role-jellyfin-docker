@@ -79,7 +79,7 @@ jellyfin_docker_environment:
 jellyfin_docker_hostname:
 
 # Specifies the image to start the container from. Must follow the Open Container Specification addressable image format, as [<registry>/][<project>/]<image>[:<tag>|@<digest>].
-jellyfin_docker_image: "lscr.io/linuxserver/docker-jellyfin:latest"
+jellyfin_docker_image: "lscr.io/linuxserver/jellyfin:latest"
 
 # Add metadata to containers. You can use either an array or a map.
 jellyfin_docker_labels: []
