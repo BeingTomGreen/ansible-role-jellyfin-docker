@@ -7,6 +7,9 @@
     owner: "{{ jellyfin_docker_user }}"
     group: "{{ jellyfin_docker_user }}"
     mode: '0755'
+  tags:
+    - jellyfin
+    - jellyfin_setup
 
 - name: Ensure Jellyfin compose file is present
   ansible.builtin.template:
@@ -17,11 +20,16 @@
     mode: '0644'
     backup: true
   register: jellyfin_docker_compose_template_result
+  tags:
+    - jellyfin
+    - jellyfin_config
 
 - name: Ensure Jellyfin compose project is deployed
   community.docker.docker_compose_v2:
     project_src: "{{ jellyfin_docker_base_directory }}"
     state: 'present'
-    pull: "{{ 'always' if jellyfin_docker_update_image else jellyfin_docker_pull_policy }}"
-    recreate: "{{ 'always' if (jellyfin_docker_compose_template_result.changed or jellyfin_docker_update_image) else 'auto' }}"
+    recreate: "{{ 'always' if (jellyfin_docker_compose_template_result.changed) else 'auto' }}"
     remove_orphans: true
+  tags:
+    - jellyfin
+    - jellyfin_deploy

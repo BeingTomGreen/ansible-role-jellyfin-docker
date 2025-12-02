@@ -1,79 +1,114 @@
 #jinja2: trim_blocks: True, lstrip_blocks: True
 
-services:
-  jellyfin:
-    {% if jellyfin_docker_cap_add | length > 0 %}
-    cap_add:
-      {% for capability in jellyfin_docker_cap_add %}
-      - {{ capability }}
-      {% endfor %}
-    {% endif %}
-    {% if jellyfin_docker_cap_drop | length > 0 %}
-    cap_drop:
-      {% for capability in jellyfin_docker_cap_drop %}
-      - {{ capability }}
-      {% endfor %}
-    {% endif %}
-    container_name: {{ jellyfin_docker_container_name }}
-    {% if jellyfin_docker_depends_on | length > 0 %}
-    depends_on:
-      {% for dep in jellyfin_docker_depends_on %}
-      - {{ dep }}
-      {% endfor %}
-    {% endif %}
-    {% if jellyfin_docker_devices %}
-    devices:
-      {% for device in jellyfin_docker_devices %}
-      - {{ device }}
-      {% endfor %}
-    {% endif %}
-    environment:
-      PUID: "{{ jellyfin_docker_env_puid }}"
-      PGID: "{{ jellyfin_docker_env_pgid }}"
-      TZ: "{{ jellyfin_docker_env_timezone }}"
-      {% if jellyfin_docker_env_published_server_url %}
-      JELLYFIN_PublishedServerUrl: "{{ jellyfin_docker_env_published_server_url }}"
-      {% endif %}
-      {% if jellyfin_docker_extra_environment_vars | length > 0 %}
-      {% for env, value in jellyfin_docker_extra_environment_vars.items() %}
-      {{ env }}: "{{ value }}"
-      {% endfor %}
-      {% endif %}
-    image: {{ jellyfin_docker_image }}:{{ jellyfin_docker_image_tag }}
-    {% if jellyfin_docker_labels | length > 0 %}
-    labels:
-      {% for label, value in jellyfin_docker_labels.items() %}
-      {{ label }}: "{{ value }}"
-      {% endfor %}
-    {% endif %}
-    {% if jellyfin_docker_external_networks | length > 0 and not (jellyfin_docker_network_mode | default('')) %}
-    networks:
-      {% for net in jellyfin_docker_external_networks %}
-      - {{ net }}
-      {% endfor %}
-    {% elif jellyfin_docker_network_mode %}
-    network_mode: {{ jellyfin_docker_network_mode | default('host') }}
-    {% endif %}
-    {% if jellyfin_docker_ports | length > 0 and not (jellyfin_docker_network_mode | default('')) %}
-    ports:
-      {% for port in jellyfin_docker_ports %}
-      - {{ port }}
-      {% endfor %}
-    {% endif %}
-    pull_policy: {{ jellyfin_docker_pull_policy }}
-    restart: {{ jellyfin_docker_restart_policy }}
-    volumes:
-      - {{ jellyfin_docker_base_directory }}/config:/config
-      {% if jellyfin_docker_media_volumes | length > 0 %}
-      {% for vol in jellyfin_docker_media_volumes %}
-      - {{ vol }}
-      {% endfor %}
-      {% endif %}
-{% if jellyfin_docker_external_networks | length > 0 and not (jellyfin_docker_network_mode | default('')) %}
+---
 
+services:
+  {{ jellyfin_docker_service_name }}:
+{% if jellyfin_docker_cpu_count %}
+    cpu_count: {{ jellyfin_docker_cpu_count }}
+{% endif %}
+{% if jellyfin_docker_cpu_percentage %}
+    cpu_percent: {{ jellyfin_docker_cpu_percentage }}
+{% endif %}
+{% if jellyfin_docker_cpu_shares %}
+    cpu_shares: {{ jellyfin_docker_cpu_shares }}
+{% endif %}
+{% if jellyfin_docker_cpu_period %}
+    cpu_period: {{ jellyfin_docker_cpu_period }}
+{% endif %}
+{% if jellyfin_docker_cpu_quota %}
+    cpu_quota: {{ jellyfin_docker_cpu_quota }}
+{% endif %}
+{% if jellyfin_docker_cpu_rt_runtime %}
+    cpu_rt_runtime: {{ jellyfin_docker_cpu_rt_runtime }}
+{% endif %}
+{% if jellyfin_docker_cpu_rt_period %}
+    cpu_rt_period: {{ jellyfin_docker_cpu_rt_period }}
+{% endif %}
+{% if jellyfin_docker_cpus %}
+    cpus: {{ jellyfin_docker_cpus }}
+{% endif %}
+{% if jellyfin_docker_cpuset %}
+    cpuset: {{ jellyfin_docker_cpuset }}
+{% endif %}
+{% if jellyfin_docker_cap_add %}
+    cap_add:
+{{ jellyfin_docker_cap_add | to_nice_yaml(indent=2) | indent(6, first=True) }}
+{% endif %}
+{% if jellyfin_docker_cap_drop %}
+    cap_drop:
+{{ jellyfin_docker_cap_drop | to_nice_yaml(indent=2) | indent(6, first=True) }}
+{% endif %}
+{% if jellyfin_docker_container_name %}
+    container_name: {{ jellyfin_docker_container_name }}
+{% endif %}
+{% if jellyfin_docker_devices %}
+    devices:
+{{ jellyfin_docker_devices | to_nice_yaml(indent=2) | indent(6, first=True) }}
+{% endif %}
+{% if jellyfin_docker_dns %}
+    dns: {{ jellyfin_docker_dns if jellyfin_docker_dns is string else jellyfin_docker_dns | to_yaml }}
+{% endif %}
+{% if jellyfin_docker_dns_opt %}
+    dns_opt: {{ jellyfin_docker_dns_opt if jellyfin_docker_dns_opt is string else jellyfin_docker_dns_opt | to_yaml }}
+{% endif %}
+{% if jellyfin_docker_dns_search %}
+    dns_search: {{ jellyfin_docker_dns_search if jellyfin_docker_dns_search is string else jellyfin_docker_dns_search | to_yaml }}
+{% endif %}
+{% if jellyfin_docker_domainname %}
+    domainname: {{ jellyfin_docker_domainname }}
+{% endif %}
+    environment:
+{{ jellyfin_docker_environment | to_nice_yaml(indent=2) | indent(6, first=True) }}
+{% if jellyfin_docker_hostname %}
+    hostname: {{ jellyfin_docker_hostname }}
+{% endif %}
+    image: {{ jellyfin_docker_image }}
+{% if jellyfin_docker_labels %}
+    labels:
+{{ jellyfin_docker_labels | to_nice_yaml(indent=2) | indent(6, first=True) }}
+{% endif %}
+{% if jellyfin_docker_mem_limit %}
+    mem_limit: {{ jellyfin_docker_mem_limit }}
+{% endif %}
+{% if jellyfin_docker_mem_reservation %}
+    mem_reservation: {{ jellyfin_docker_mem_reservation }}
+{% endif %}
+{% if jellyfin_docker_mem_swappiness %}
+    mem_swappiness: {{ jellyfin_docker_mem_swappiness }}
+{% endif %}
+{% if jellyfin_docker_memswap_limit %}
+    memswap_limit: {{ jellyfin_docker_memswap_limit }}
+{% endif %}
+{% if jellyfin_docker_network_mode %}
+    network_mode: {{ jellyfin_docker_network_mode }}
+{% endif %}
+{% if jellyfin_docker_networks %}
+    networks:
+{{ jellyfin_docker_networks | to_nice_yaml(indent=2) | indent(6, first=True) }}
+{% endif %}
+{% if jellyfin_docker_ports %}
+    ports:
+{{ jellyfin_docker_ports | to_nice_yaml(indent=2) | indent(6, first=True) }}
+{% endif %}
+{% if jellyfin_docker_pull_policy %}
+    pull_policy: {{ jellyfin_docker_pull_policy }}
+{% endif %}
+{% if jellyfin_docker_restart_policy %}
+    restart: {{ jellyfin_docker_restart_policy }}
+{% endif %}
+{% if jellyfin_docker_runtime %}
+    runtime: {{ jellyfin_docker_runtime }}
+{% endif %}
+{% if jellyfin_docker_volumes %}
+    volumes:
+{{ jellyfin_docker_volumes | to_nice_yaml(indent=2) | indent(6, first=True) }}
+{% endif %}
+
+{% if jellyfin_docker_networks %}
 networks:
-  {% for net in jellyfin_docker_external_networks %}
-  {{ net }}:
+{% for network in jellyfin_docker_networks %}
+  {{ network }}:
     external: true
-  {% endfor %}
+{% endfor %}
 {% endif %}
