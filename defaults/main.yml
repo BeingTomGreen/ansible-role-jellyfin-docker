@@ -108,7 +108,7 @@ jellyfin_docker_networks: []
 # jellyfin_docker_networks:
 #  - 'mediarr'
 
-# The ports is used to define the port mappings between the host machine and the containers
+# Define the port mappings between the host machine and the containers
 jellyfin_docker_ports:
   - '8096:8096' # Http webUI.
 #   - '8920:8920' # Optional - Https webUI (you need to set up your own certificate).
